@@ -5,7 +5,8 @@ Python package for the analyzing N-body simulation data with  [Bonsai](https://g
 ```
 git clone https://github.com/tetsuroasano/bonsaiana
 cd bonsaiana
-python setup.py install
+pip install -r requirements.txt
+pip install -e .
 ```
 
 # Basic Usage
