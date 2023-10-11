@@ -14,6 +14,6 @@ pip install -e .
 import bonsaiana
 pid, ptype, mass, pos, vel = bonsaiana.IO.read('snapshot_name.bonsai')
 ```
-`bonsai.IO.read()` returns five `numpy.arrays` (particles' ID, type, mass, position, and velocity).
+`bonsai.IO.read()` returns five `numpy.arrays` (particle ID, type, mass, position, and velocity).
 
 
