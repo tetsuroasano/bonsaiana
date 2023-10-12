@@ -1,5 +1,5 @@
 # bonsaiana
-Python package for analyzing N-body simulation data with  [Bonsai](https://github.com/treecode/Bonsai) code.
+Python package for analyzing data of N-body simulations with  [Bonsai](https://github.com/treecode/Bonsai) code.
 
 # Install
 ```
