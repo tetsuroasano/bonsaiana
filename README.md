@@ -1,5 +1,5 @@
 # bonsaiana
-Python package for the analyzing N-body simulation data with  [Bonsai](https://github.com/treecode/Bonsai) code.
+Python package for analyzing N-body simulation data with  [Bonsai](https://github.com/treecode/Bonsai) code.
 
 # Install
 ```
@@ -14,6 +14,6 @@ pip install -e .
 import bonsaiana
 pid, ptype, mass, pos, vel = bonsaiana.IO.read('snapshot_name.bonsai')
 ```
-`bonsai.IO.read()` returns five `numpy.arrays` (particle ID, type, mass, position, and velocity).
+`bonsai.IO.read()` returns five numpy arrays (particle ID, type, mass, position, and velocity).
 
 
