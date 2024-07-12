@@ -2,7 +2,7 @@
 build
 dist
 *.egg-info
-cython/*.cpp
+bonsaiana/*.cpp
 test.cpp
 *.swp
 .ipynb_checkpoints
