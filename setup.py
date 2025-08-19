@@ -25,7 +25,7 @@ ext_modules = [
 
 setup(
     name="bonsaiana",
-    version='0.1.0',
+    version='1.0.0',
     author='Tetsuro Asano',
     cmdclass={"build_ext": build_ext},
     ext_modules=cythonize(ext_modules),
