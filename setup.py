@@ -1,7 +1,6 @@
 from setuptools import setup, Extension, find_packages
 from Cython.Build import cythonize
 from Cython.Distutils import build_ext
-from distutils import sysconfig
 from numpy import get_include
 
 
