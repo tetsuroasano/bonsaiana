@@ -10,7 +10,7 @@ def _requires_from_file(filename):
 
 ext_modules = [
     Extension(
-        "bonsaiana", sources=[
+        "bonsaiana.bonsaiana", sources=[
             "./bonsaiana/bonsaiana.pyx",
             "./cpp_library/SnapIO.cpp",
             "./cpp_library/tipsyIO.cpp",
@@ -23,10 +23,6 @@ ext_modules = [
 ]
 
 setup(
-    name="bonsaiana",
-    version='1.0.0',
-    author='Tetsuro Asano',
     cmdclass={"build_ext": build_ext},
-    ext_modules=cythonize(ext_modules),
-    install_requires=_requires_from_file('requirements.txt')
+    ext_modules=cythonize(ext_modules)
 )

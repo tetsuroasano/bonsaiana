@@ -57,53 +57,36 @@ class IO:
                                     file_name)
         
         if format == 'bonsai':
-
             with pipes() as (out, err):
-                id_dm, type_dm, mass_dm, pos_dm, vel_dm, id_s, type_s, mass_s, pos_s, vel_s = SnapIOCython.read_bonsai(file_name.encode('utf-8'), reduce_dm, reduce_star)
-            pos_dm *= unit_len
-            vel_dm *= unit_vel
-            mass_dm *= unit_mass * reduce_dm
-            pos_dm = pos_dm.reshape([-1,3])
-            vel_dm = vel_dm.reshape([-1,3])
-            pos_s *= unit_len
-            vel_s *= unit_vel
-            mass_s *= unit_mass * reduce_star
-            pos_s = pos_s.reshape([-1,3])
-            vel_s = vel_s.reshape([-1,3])
-
-            if reduce_dm == 0 and reduce_star == 0:
-                return ()
-            elif reduce_dm == 0:
-                return id_s, type_s, mass_s, pos_s, vel_s
-            elif reduce_star == 0:
-                return id_dm, type_dm, mass_dm, pos_dm, vel_dm
-            else:
-                return id_dm, type_dm, mass_dm, pos_dm, vel_dm, id_s, type_s, mass_s, pos_s, vel_s
-
+                results = SnapIOCython.read_bonsai(file_name.encode('utf-8'), reduce_dm, reduce_star)
         elif format == 'tipsy':
-            id_dm, type_dm, mass_dm, pos_dm, vel_dm, id_s, type_s, mass_s, pos_s, vel_s = SnapIOCython.read_tipsy(file_name.encode('utf-8'), reduce_dm, reduce_star)
-            pos_dm *= unit_len
-            vel_dm *= unit_vel
-            mass_dm *= unit_mass * reduce_dm
-            pos_dm = pos_dm.reshape([-1,3])
-            vel_dm = vel_dm.reshape([-1,3])
-            pos_s *= unit_len
-            vel_s *= unit_vel
-            mass_s *= unit_mass * reduce_star
-            pos_s = pos_s.reshape([-1,3])
-            vel_s = vel_s.reshape([-1,3])
-
-            if reduce_dm == 0 and reduce_star == 0:
-                return ()
-            elif reduce_dm == 0:
-                return id_s, type_s, mass_s, pos_s, vel_s
-            elif reduce_star == 0:
-                return id_dm, type_dm, mass_dm, pos_dm, vel_dm
-            else:
-                return id_dm, type_dm, mass_dm, pos_dm, vel_dm, id_s, type_s, mass_s, pos_s, vel_s
-
+            results = SnapIOCython.read_tipsy(file_name.encode('utf-8'), reduce_dm, reduce_star)
         else:
             raise Exception(f'{format}: unsupported file format')
+
+        id_dm, type_dm, mass_dm, pos_dm, vel_dm, id_s, type_s, mass_s, pos_s, vel_s = results
+
+        # Post-processing
+        pos_dm *= unit_len
+        vel_dm *= unit_vel
+        mass_dm *= unit_mass * reduce_dm
+        pos_dm = pos_dm.reshape([-1,3])
+        vel_dm = vel_dm.reshape([-1,3])
+
+        pos_s *= unit_len
+        vel_s *= unit_vel
+        mass_s *= unit_mass * reduce_star
+        pos_s = pos_s.reshape([-1,3])
+        vel_s = vel_s.reshape([-1,3])
+
+        if reduce_dm == 0 and reduce_star == 0:
+            return ()
+        elif reduce_dm == 0:
+            return id_s, type_s, mass_s, pos_s, vel_s
+        elif reduce_star == 0:
+            return id_dm, type_dm, mass_dm, pos_dm, vel_dm
+        else:
+            return id_dm, type_dm, mass_dm, pos_dm, vel_dm, id_s, type_s, mass_s, pos_s, vel_s
 
     @staticmethod
     def write(id_dm, type_dm, mass_dm, pos_dm, vel_dm, id_s, type_s, mass_s, pos_s, vel_s, file_name, time=0., format='tipsy', unit_len=1., unit_vel=100., unit_mass=2.324876e9):

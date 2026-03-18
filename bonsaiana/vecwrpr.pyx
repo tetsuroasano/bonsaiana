@@ -4,17 +4,15 @@ from libc.stdlib cimport malloc, free
 # For details, see https://stackoverflow.com/questions/45133276/passing-c-vector-to-numpy-through-cython-without-copying-and-taking-care-of-me
 # and https://ymd_h.gitlab.io/ymd_blog/posts/sharing_memory_between_numpy_and_vector_by_cython/
 cdef class VectorWrapper:
-    cdef Py_ssize_t *shape
-    cdef Py_ssize_t *strides
+    cdef Py_ssize_t shape[2]
+    cdef Py_ssize_t strides[2]
     cdef Py_ssize_t itemsize
 
     def __cinit__(self):
-        self.shape   = <Py_ssize_t*>malloc(sizeof(Py_ssize_t) * 2)
-        self.strides = <Py_ssize_t*>malloc(sizeof(Py_ssize_t) * 2)
+        pass
 
     def __dealloc__(self):
-        free(self.shape)
-        free(self.strides)
+        pass
 
     cdef void update_size(self):
         self.shape[0] = self.vec_size()
