@@ -129,33 +129,28 @@ class IO:
             Unit mass. Default value: 2.324876e9 [solar mass]
         """
 
-        pos_dm /= unit_len
-        vel_dm /= unit_vel
-        mass_dm /= unit_mass 
-        pos_s /= unit_len
-        vel_s /= unit_vel
-        mass_s /= unit_mass
+        # Scaled arrays for writing (avoiding in-place modification of user data)
+        # Note: .flatten() already creates a copy if needed.
+        m_dm_out = mass_dm / unit_mass
+        p_dm_out = (pos_dm / unit_len).flatten()
+        v_dm_out = (vel_dm / unit_vel).flatten()
+
+        m_s_out = mass_s / unit_mass
+        p_s_out = (pos_s / unit_len).flatten()
+        v_s_out = (vel_s / unit_vel).flatten()
 
         if format == 'bonsai':
-            SnapIOCython.write_bonsai(id_dm.data, type_dm.data, mass_dm.data, pos_dm.flatten().data, vel_dm.flatten().data,
-                    id_s.data, type_s.data, mass_s.data, pos_s.flatten().data, vel_s.flatten().data, file_name.encode('utf-8'), time)
-            pos_dm *= unit_len
-            vel_dm *= unit_vel
-            mass_dm *= unit_mass
-            pos_s *= unit_len
-            vel_s *= unit_vel
-            mass_s *= unit_mass
-
+            SnapIOCython.write_bonsai(
+                id_dm, type_dm, m_dm_out, p_dm_out, v_dm_out,
+                id_s, type_s, m_s_out, p_s_out, v_s_out, 
+                file_name.encode('utf-8'), time
+            )
         elif format == 'tipsy':
-            SnapIOCython.write_tipsy(id_dm.data, type_dm.data, mass_dm.data, pos_dm.flatten().data, vel_dm.flatten().data,
-                    id_s.data, type_s.data, mass_s.data, pos_s.flatten().data, vel_s.flatten().data, file_name.encode('utf-8'), time)
-            pos_dm *= unit_len
-            vel_dm *= unit_vel
-            mass_dm *= unit_mass
-            pos_s *= unit_len
-            vel_s *= unit_vel
-            mass_s *= unit_mass
-
+            SnapIOCython.write_tipsy(
+                id_dm, type_dm, m_dm_out, p_dm_out, v_dm_out,
+                id_s, type_s, m_s_out, p_s_out, v_s_out, 
+                file_name.encode('utf-8'), time
+            )
         else:
             raise Exception(f'{format}: unsupported file format')
 

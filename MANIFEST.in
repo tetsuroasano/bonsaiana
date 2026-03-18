@@ -1,0 +1,5 @@
+include cpp_library/*.h
+include cpp_library/*.hpp
+include cpp_library/*.cpp
+include bonsaiana/*.pxd
+include bonsaiana/*.pyx

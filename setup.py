@@ -1,19 +1,14 @@
-from setuptools import setup, Extension, find_packages
+from setuptools import setup, Extension
 from Cython.Build import cythonize
-from Cython.Distutils import build_ext
 from numpy import get_include
-
-
-def _requires_from_file(filename):
-    return open(filename).read().splitlines()
-
 
 ext_modules = [
     Extension(
-        "bonsaiana.bonsaiana", sources=[
-            "./bonsaiana/bonsaiana.pyx",
-            "./cpp_library/SnapIO.cpp",
-            "./cpp_library/tipsyIO.cpp",
+        "bonsaiana.bonsaiana",
+        sources=[
+            "bonsaiana/bonsaiana.pyx",
+            "cpp_library/SnapIO.cpp",
+            "cpp_library/tipsyIO.cpp",
         ],
         include_dirs=[get_include()],
         language="c++",
@@ -23,6 +18,5 @@ ext_modules = [
 ]
 
 setup(
-    cmdclass={"build_ext": build_ext},
     ext_modules=cythonize(ext_modules)
 )
