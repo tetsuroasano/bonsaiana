@@ -18,9 +18,13 @@ class ParticleGroup:
         from .analysis import find_center_shrinking_sphere
         return find_center_shrinking_sphere(self.pos, self.mass, self.vel, **kwargs)
 
-    def align_disk(self):
+    def calculate_angular_momentum(self):
+        from .analysis import calculate_angular_momentum
+        return calculate_angular_momentum(self.pos, self.vel, self.mass)
+
+    def align_disk(self, L=None):
         from .analysis import align_disk
-        self.pos, self.vel = align_disk(self.pos, self.vel, self.mass)
+        self.pos, self.vel = align_disk(self.pos, self.vel, mass=self.mass, L=L)
 
     def to_pandas(self, group_name=None):
         """Convert this particle group to a pandas DataFrame."""

@@ -89,9 +89,9 @@ def find_center_shrinking_sphere(pos, mass, vel=None, r_ini=None, reduce_factor=
         
     return cm_pos
 
-def align_disk(pos, vel, mass):
+def calculate_angular_momentum(pos, vel, mass):
     """
-    Align the disk so that the angular momentum vector is along the Z-axis.
+    Calculate the total angular momentum vector.
 
     Parameters
     ----------
@@ -104,13 +104,38 @@ def align_disk(pos, vel, mass):
 
     Returns
     -------
+    L : numpy.ndarray
+        Total angular momentum vector (3,)
+    """
+    return np.sum(mass[:, np.newaxis] * np.cross(pos, vel), axis=0)
+
+def align_disk(pos, vel, mass=None, L=None):
+    """
+    Align the disk so that the angular momentum vector is along the Z-axis.
+
+    Parameters
+    ----------
+    pos : numpy.ndarray
+        Particle positions (N, 3)
+    vel : numpy.ndarray
+        Particle velocities (N, 3)
+    mass : numpy.ndarray, optional
+        Particle masses (N,). Required if L is not provided.
+    L : numpy.ndarray, optional
+        Angular momentum vector (3,). If None, calculated from (pos, vel, mass).
+
+    Returns
+    -------
     new_pos : numpy.ndarray
         Rotated positions
     new_vel : numpy.ndarray
         Rotated velocities
     """
-    # Calculate angular momentum
-    L = np.sum(mass[:, np.newaxis] * np.cross(pos, vel), axis=0)
+    if L is None:
+        if mass is None:
+            raise ValueError("Either L or mass must be provided to align_disk.")
+        L = calculate_angular_momentum(pos, vel, mass)
+    
     L_norm = L / np.linalg.norm(L)
     
     # Target axis

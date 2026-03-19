@@ -1,6 +1,6 @@
 from .bonsaiana import IO
 from .snapshot import Snapshot, ParticleGroup, to_snapshot
-from .analysis import find_center_of_mass, find_center_shrinking_sphere, align_disk
+from .analysis import find_center_of_mass, find_center_shrinking_sphere, align_disk, calculate_angular_momentum
 
 def to_pandas(data, contains_dm=None, contains_stars=None):
     """
