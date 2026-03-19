@@ -5,7 +5,7 @@ include "snap_io.pyx"
 
 class IO:
     @staticmethod
-    def read(file_name, reduce_dm=0, reduce_star=1, format='bonsai', unit_len=1., unit_vel=100., unit_mass=2.324876e9):
+    def read(file_name, reduce_dm=0, reduce_star=1, format='bonsai', unit_len=1., unit_vel=100., unit_mass=2.324876e9, as_snapshot=True):
         """
         Read an N-body snapshot file
 
@@ -25,30 +25,15 @@ class IO:
             Unit velocity. Default value: 100.0 [km/s]
         unit_mass: float, default: 2.324876e9
             Unit mass. Default value: 2.324876e9 [solar mass]
+        as_snapshot: bool, default: True
+            If True, returns a structured Snapshot object.
+            If False, returns a tuple of numpy arrays (backward compatibility).
 
         Returns
         -------
-        id_dm: numpy.ndarray
-            IDs of dark-matter particles
-        type_dm: numpy.ndarray
-            Types of dark-matter particles
-        mass_dm: numpy.ndarray
-            Masses of dark-matter particles
-        pos_dm: numpy.ndarray
-            Positions of dark-matter particles
-        vel_dm: numpy.ndarray
-            Velocities of dark-matter particles
-        id_s: numpy.ndarray
-            IDs of stellar particles
-        type_s: numpy.ndarray
-            Types of stellar particles
-        mass_s: numpy.ndarray
-            Masses of stellar particles
-        pos_s: numpy.ndarray
-            Positions of stellar particles
-        vel_s: numpy.ndarray
-            Velocities of stellar particles
-
+        Snapshot or Tuple of Arrays
+            If as_snapshot=True (default), returns a bonsaiana.Snapshot object.
+            If as_snapshot=False, returns a tuple of IDs, Types, Masses, Positions, and Velocities.
         """
 
         if not os.path.isfile(file_name):
@@ -78,6 +63,12 @@ class IO:
         mass_s *= unit_mass * reduce_star
         pos_s = pos_s.reshape([-1,3])
         vel_s = vel_s.reshape([-1,3])
+
+        if as_snapshot:
+            from .snapshot import Snapshot, ParticleGroup
+            dm_group = ParticleGroup(id_dm, type_dm, mass_dm, pos_dm, vel_dm) if reduce_dm > 0 else None
+            star_group = ParticleGroup(id_s, type_s, mass_s, pos_s, vel_s) if reduce_star > 0 else None
+            return Snapshot(dm=dm_group, stars=star_group)
 
         if reduce_dm == 0 and reduce_star == 0:
             return ()

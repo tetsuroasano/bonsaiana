@@ -7,4 +7,5 @@ test.cpp
 *.swp
 .ipynb_checkpoints
 test
+!test/*.ipynb
 *.so

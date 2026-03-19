@@ -16,6 +16,18 @@ dependencies = [
     "cython",
     "numpy",
     "wurlitzer",
+    "pandas",
+]
+
+[project.optional-dependencies]
+formats = [
+    "h5py",
+    "pyarrow",
+    "asdf",
+]
+test = [
+    "pytest",
+    "notebook",
 ]
 
 [tool.setuptools]
