@@ -9,3 +9,4 @@ test.cpp
 test
 !test/*.ipynb
 *.so
+src/bonsaiana/_core.cpp
