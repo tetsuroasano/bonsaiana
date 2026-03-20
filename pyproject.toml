@@ -30,8 +30,8 @@ test = [
     "notebook",
 ]
 
-[tool.setuptools]
-packages = ["bonsaiana"]
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools.package-data]
-bonsaiana = ["*.pxd", "*.pyx"]
+bonsaiana = ["*.pxd", "*.pyx", "lib/*.h", "lib/*.hpp"]

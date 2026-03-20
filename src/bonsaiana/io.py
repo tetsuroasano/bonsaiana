@@ -1,7 +1,7 @@
-from wurlitzer import pipes
-import errno
 import os
-include "snap_io.pyx"
+import errno
+from wurlitzer import pipes
+from ._core import SnapIOCython
 
 class IO:
     @staticmethod
@@ -144,4 +144,3 @@ class IO:
             )
         else:
             raise Exception(f'{format}: unsupported file format')
-

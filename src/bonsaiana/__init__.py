@@ -1,4 +1,4 @@
-from .bonsaiana import IO
+from .io import IO
 from .snapshot import Snapshot, ParticleGroup, to_snapshot
 from .analysis import find_center_of_mass, find_center_shrinking_sphere, align_disk, calculate_angular_momentum
 
